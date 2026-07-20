@@ -110,7 +110,6 @@ private fun DetailBody(
     sourceUrl: String,
     errorNote: String?
 ) {
-    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -153,21 +152,27 @@ private fun DetailBody(
                 )
             }
 
+            WikipediaLinkButton(sourceUrl = sourceUrl, modifier = Modifier.padding(top = 8.dp))
+
             Text(
                 text = text,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(top = 12.dp)
+                modifier = Modifier.padding(top = 16.dp)
             )
 
-            TextButton(
-                onClick = {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(sourceUrl)))
-                },
-                modifier = Modifier.padding(top = 16.dp)
-            ) {
-                Icon(Icons.Filled.OpenInNew, contentDescription = null, modifier = Modifier.padding(end = 8.dp))
-                Text("Read full article on Wikipedia")
-            }
+            WikipediaLinkButton(sourceUrl = sourceUrl, modifier = Modifier.padding(top = 16.dp))
         }
+    }
+}
+
+@Composable
+private fun WikipediaLinkButton(sourceUrl: String, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    TextButton(
+        onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(sourceUrl))) },
+        modifier = modifier
+    ) {
+        Icon(Icons.Filled.OpenInNew, contentDescription = null, modifier = Modifier.padding(end = 8.dp))
+        Text("Read full article on Wikipedia")
     }
 }
